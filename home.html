@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Manage Subscriptions</title>
+  </head>
+
+  <body>
+    <h1>Manage Subscriptions</h1>
+
+    <table>
+      <tr>
+          <th rowspan="2"></th>
+          <th rowspan="2">Name</th>
+          <th rowspan="2">Last Inspection</th>
+          <th rowspan="2">Score</th>
+          <th rowspan="2">Grade</th>
+          <th colspan="3">Notify On:</th>
+      </tr>
+      <tr>
+          <th>Grade Change</th><th>Score Change</th><th>Inspection</th>
+      </tr>
+    {% for subscription in subscriptions %}
+    <tr>
+      <td>
+        <form action="/updatesub" method="post">
+          <input type="hidden" name="camis" value="{{ subscription.restaurant.key().id_or_name() }}">
+          <input type="hidden" name="action" value="Remove">
+          <input type="hidden" name="goto" value="/home">
+          <input type="submit" value="Remove">
+        </form>
+      </td>
+      <td>{{ subscription.restaurant.name }}</td>
+      <td>{{ subscription.restaurant.last_inspected }}</td>
+      <td>{{ subscription.restaurant.score }}</td>
+      <td>{{ subscription.restaurant.grade }}</td>
+      <td>
+        <form action="/updatesub" method="post">
+          <div color="{{ subscription.grade_change_color }}">
+          <input type="hidden" name="camis" value="{{ subscription.restaurant.key().id_or_name() }}">
+          <input type="hidden" name="field" value="grade">
+          <input type="hidden" name="action" value="Change">
+          <input type="hidden" name="goto" value="/home">
+          <input type="submit" value="{{ subscription.grade_change_button }}">
+          </div>
+        </form>
+      </td>
+      <td>
+        <form action="/updatesub" method="post">
+          <div color="{{ subscription.score_change_color }}">
+          <input type="hidden" name="camis" value="{{ subscription.restaurant.key().id_or_name() }}">
+          <input type="hidden" name="field" value="score">
+          <input type="hidden" name="action" value="Change">
+          <input type="hidden" name="goto" value="/home">
+          <input type="submit" value="{{ subscription.score_change_button }}">
+          </div>
+        </form>
+      </td>
+      <td>
+        <form action="/updatesub" method="post">
+          <div color="{{ subscription.inspection_change_color }}">
+          <input type="hidden" name="camis" value="{{ subscription.restaurant.key().id_or_name() }}">
+          <input type="hidden" name="field" value="inspection">
+          <input type="hidden" name="action" value="Change">
+          <input type="hidden" name="goto" value="/home">
+          <input type="submit" value="{{ subscription.inspection_change_button }}">
+          </div>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+    </table>
+    <hr>
+    <form action="/find" method="get">
+      <input type="submit" value="Find a restaurant to add:">
+      <input name="name">
+    </form>
+    <hr>
+    <a href="{{ logout_url }}">Logout</a> 
+    <hr>
+    <form action="/updatesub" method="post">
+        <input type="hidden" name="action" value="RemoveUser">
+        <input type="submit" value="Delete User">
+    </form>
+    <hr>
+    <h3>Some notes on the grading system</h3>
+    <p>
+      Restaurants get points for violations.  The higher the score,
+      the worse the violation.
+    </p>
+    <table border=1>
+        <tr><th>Score</th><th>Grade</th><th>Months</th></tr>
+        <tr><td>0-13 </td><td>A</td><td>12</td></tr>
+        <tr><td>14-27</td><td>B</td><td> 6</td></tr>
+        <tr><td>28+  </td><td>C</td><td> 4</td></tr>
+    </table>
+    <h4>Inspection Cycle</h4>
+    <p>
+      If the first inspection's score is less than 14, the restaurant
+      gets an A.  Otherwise they are told that there will be another
+      inspection within the month.  They are not told exactly when the
+      second inspection will be.
+    </p>
+    <p>
+      If the second inspection results in a B or C grade, the
+      restaurant gets two signs: one with their grade, and one that
+      says "grade pending".  They can either put up the sign with
+      their grade, or they can appeal the score and put up the "grade
+      pending" sign.
+    </p>
+    <p>
+      If a restaurant gets an A, their next inspection cycle will be
+      about 12 months later.  If a restaurant gets a B, their next
+      inspection will be in about 6 months.  If a restaurant gets a C,
+      their next inspection will be in about 4 months.
+    </p>
+  </body>
+</html>

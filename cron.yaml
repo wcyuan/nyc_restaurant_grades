@@ -1,0 +1,7 @@
+cron:
+- description: daily update
+  url: /updateres?action=update_all
+  schedule: every day 0:00
+- description: daily update
+  url: /notify?action=notify_all
+  schedule: every day 1:00

@@ -326,7 +326,7 @@ class FindPage(webapp2.RequestHandler):
         if sort_key is None:
             # by default, sort by name
             sort_key = 'name'
-        if sort_key in rest_hash:
+        if len(restaurants) > 1 and sort_key in restaurants[0]:
             restaurants = sorted(restaurants, key=lambda r: r[sort_key])
 
         for restaurant in restaurants:

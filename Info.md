@@ -18,6 +18,8 @@ Basic syntax:
 
  - \[link text](http://url/ "Title")
 
+ - Create code blocks by indenting by at least 4 spaces or a tab.
+
 Basic Design
 ------------
 
@@ -44,22 +46,22 @@ Pages:
 
 Running a development server
 ----------------------------
-  dev_appserver.py [--port=<port>] <path>
+    dev_appserver.py [--port=<port>] <path>
 
 where <path> is the path to the directory containing the app.  Port
 defaults to 8080.  e.g.
 
-  dev_appserver.py nyc_restaurant_grades/
+    dev_appserver.py nyc_restaurant_grades/
 
 Access the server at http://localhost:8080/
 
 Uploading to production
 -----------------------
-  appcfg.py --oauth2 --noauth_local_webserver --no_cookies update <path>
+    appcfg.py --oauth2 --noauth_local_webserver --no_cookies update <path>
 
 where <path> is the path to the directory containing the app, e.g.
 
-  appcfg.py --oauth2 --noauth_local_webserver --no_cookies update nyc_restaurant_grades/
+    appcfg.py --oauth2 --noauth_local_webserver --no_cookies update nyc_restaurant_grades/
 
 This will display a url for a page where you can give appcfg.py access
 to your account.  It will then prompt for a secret key.  If you point

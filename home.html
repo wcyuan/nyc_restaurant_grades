@@ -29,7 +29,9 @@
           <input type="submit" value="Remove">
         </form>
       </td>
-      <td>{{ subscription.restaurant.name }}</td>
+      <td><a href=
+          "/goto?camis={{ subscription.restaurant.key().id_or_name() }}"
+          >{{ subscription.restaurant.name }}</a></td>
       <td>{{ subscription.restaurant.last_inspected }}</td>
       <td>{{ subscription.restaurant.score }}</td>
       <td>{{ subscription.restaurant.grade }}</td>

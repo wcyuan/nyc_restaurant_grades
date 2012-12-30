@@ -564,23 +564,30 @@ class NotifyPage(webapp2.RequestHandler):
                                 }
                 display_users.append(display_user)
             template = jinja_environment.get_template('notify.html')
-            display_users[0]['subscriptions'][0].needs_grade_notify()
             self.response.out.write(template.render({
                 'users': display_users,
                 'logout_url': gusers.create_logout_url('/'),
                 'goto': goto
                 }))
 
+class GotoRestaurantPage(webapp2.RequestHandler):
+    def get(self):
+        camis = self.request.get('camis')
+        template = jinja_environment.get_template('goto.html')
+        self.response.out.write(template.render({
+            'camis': camis,
+            }))
 
 # -------------------------------------------------------------------
 # webapp
 
 app = webapp2.WSGIApplication(
-    [('/home',       HomePage)
+    [('/home',        HomePage)
      ,('/find',       FindPage)
      ,('/updatesub',  UpdateSubscriptionPage)
      ,('/updateres',  UpdateRestaurantPage)
      ,('/notify',     NotifyPage)
+     ,('/goto',       GotoRestaurantPage)
      ],
     debug=True)
 

@@ -13,6 +13,9 @@ handlers:
   static_files: index.html
   upload: index.html
 
+- url: /(goto)
+  script: nyc_restaurant_grades.app
+
 - url: /(home|find|updatesub)
   script: nyc_restaurant_grades.app
   login: required

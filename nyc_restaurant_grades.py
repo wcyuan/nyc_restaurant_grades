@@ -305,6 +305,7 @@ class FindPage(webapp2.RequestHandler):
 
         subscriptions = Subscription.all(keys_only=True).ancestor(
             User.make_key(user.user_id()))
+        subscriptions = sorted(subscriptions, key=lambda s: s.restaurant.name)
 
         name    = self.request.get('name')
         zipcode = self.request.get('zipcode')

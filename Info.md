@@ -1,7 +1,7 @@
 Intro
 -----
 
-This is a Google App Engine application.  
+This is a Google App Engine application.  It uses the webapp2 framework.
 
 [https://developers.google.com/appengine/](https://developers.google.com/appengine)
 

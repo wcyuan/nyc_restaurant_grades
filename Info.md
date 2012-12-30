@@ -1,13 +1,25 @@
+Intro
+-----
+
 This is a Google App Engine application.  
 
 [https://developers.google.com/appengine/](https://developers.google.com/appengine)
 
-Github uses markdown.  The syntax is described [here](http://daringfireball.net/projects/markdown/syntax).
+Github uses markdown.  The syntax is described
+[here](http://daringfireball.net/projects/markdown/syntax).  You can
+test markdown
+[here](http://daringfireball.net/projects/markdown/dingus).
 
-You can test markdown [here](http://daringfireball.net/projects/markdown/dingus).
+Basic syntax:
 
-Basic design
------------------------------
+ - \_italic_
+
+ - \**bold**
+
+ - \[link text](http://url/ "Title")
+
+Basic Design
+------------
 
 Each user has a list of restaurants that they subscribe to.  Users can
 search for new restaurants to add to the list and remove restaurants
@@ -31,16 +43,17 @@ Pages:
  changes.
 
 Running a development server
------------------------------
-  dev_appserver.py [--port=<port>] myapp
+----------------------------
+  dev_appserver.py [--port=<port>] <path>
 
-defaults to port 8080
+Path is the path to the directory containing the app.  Port defaults
+to 8080.
 
 Uploading to production
------------------------------
+-----------------------
   appcfg.py --oauth2 --noauth_local_webserver --no_cookies update nyc_restaurant_grades/
 
 Todo
------------------------------
+----
 Allow sorting of list of restaurants by different columns.
 

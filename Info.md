@@ -46,12 +46,27 @@ Running a development server
 ----------------------------
   dev_appserver.py [--port=<port>] <path>
 
-Path is the path to the directory containing the app.  Port defaults
-to 8080.
+where <path> is the path to the directory containing the app.  Port
+defaults to 8080.  e.g.
+
+  dev_appserver.py nyc_restaurant_grades/
+
+Access the server at http://localhost:8080/
 
 Uploading to production
 -----------------------
+  appcfg.py --oauth2 --noauth_local_webserver --no_cookies update <path>
+
+where <path> is the path to the directory containing the app, e.g.
+
   appcfg.py --oauth2 --noauth_local_webserver --no_cookies update nyc_restaurant_grades/
+
+This will display a url for a page where you can give appcfg.py access
+to your account.  It will then prompt for a secret key.  If you point
+a browser to the url, and verify the access, it will send you to a
+page containing that secret key.  Copy it and paste it back in the
+waiting terminal.  The upload will continue, and it will check to
+make sure it succeeded.  It usually takes about a minute.
 
 Todo
 ----

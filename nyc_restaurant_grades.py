@@ -291,6 +291,17 @@ class HomePage(webapp2.RequestHandler):
         subscriptions = Subscription.all().ancestor(
             User.make_key(user.user_id()))
 
+        sort_key = self.request.get('sort')
+        if sort_key == 'last_inspected':
+            subscriptions = sorted(subscriptions, key=lambda s: s.restaurant.last_inspected)
+        elif sort_key == 'score':
+            subscriptions = sorted(subscriptions, key=lambda s: s.restaurant.score)
+        elif sort_key == 'grade':
+            subscriptions = sorted(subscriptions, key=lambda s: s.restaurant.grade)
+        else:
+            # by default, sort by name
+            subscriptions = sorted(subscriptions, key=lambda s: s.restaurant.name)
+
         template = jinja_environment.get_template('home.html')
         self.response.out.write(template.render({
             'subscriptions': subscriptions,
@@ -305,13 +316,21 @@ class FindPage(webapp2.RequestHandler):
 
         subscriptions = Subscription.all(keys_only=True).ancestor(
             User.make_key(user.user_id()))
-        subscriptions = sorted(subscriptions, key=lambda s: s.restaurant.name)
+        ids = [k.id_or_name() for k in subscriptions]
 
         name    = self.request.get('name')
         zipcode = self.request.get('zipcode')
         restaurants = find_restaurants(name, zipcode)
+
+        sort_key = self.request.get('sort')
+        if sort_key is None:
+            # by default, sort by name
+            sort_key = 'name'
+        if sort_key in rest_hash:
+            restaurants = sorted(restaurants, key=lambda r: r[sort_key])
+
         for restaurant in restaurants:
-            if restaurant['camis'] in subscriptions:
+            if restaurant['camis'] in ids:
                 restaurant['action'] = "Remove"
             else:
                 restaurant['action'] = "Add"

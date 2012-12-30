@@ -29,16 +29,16 @@ Pages:
 
  - **index.html** - Introduction and login
 
- - **home.html** - Lists all the restaurants you are subscribed to.
+ - **home** - Lists all the restaurants you are subscribed to.
  Options to remove restaurants or to modify the events that you are
  notified for.
 
- - **find.html** - Search for restaurants to add.
+ - **find** - Search for restaurants to add.
 
- - **update.html** - (_For administrators only_) Update information about a
+ - **update** - (_For administrators only_) Update information about a
  restaurant.  Runs by cron once a day to update all restaurants.
 
- - **notify.html** - (_For administrators only_) Notify users about changes
+ - **notify** - (_For administrators only_) Notify users about changes
  to a restaurant.  Runs by cron once a day to notify all users for
  changes.
 

@@ -533,6 +533,10 @@ class NotifyPage(webapp2.RequestHandler):
                                 (sub.restaurant.name, sub.restaurant.last_inspected))
             if len(messages) == 0:
                 continue
+            messages.append('')
+            messages.append('http://nyc-restaurant-grades.appspot.com/home')
+            messages.append('http://nyc-restaurant-grades.appspot.com/goto?camis=%s' %
+                            sub.restaurant.key().id_or_name())
             body = "\n".join(messages)
             subject = '%s Updated!' % sub.restaurant.name
             mail.send_mail('notifier@nyc-restaurant-grades.appspotmail.com',
@@ -551,19 +555,15 @@ class NotifyPage(webapp2.RequestHandler):
                 self.notify_user(user)
             self.redirect(goto)
         elif action == "notify_user":
-            user_id = self.request.get('user_id')
+            user_id = self.request.get('user')
             if user_id is not None and user_id != '':
-                # XXX don't know why, but this doesn't work, it
-                # doesn't find the user
                 user = db.get(User.make_key(user_id))
                 if user is not None:
                     self.notify_user(user)
             self.redirect(goto)
         else:
-            user_id = self.request.get('user_id')
+            user_id = self.request.get('user')
             if user_id is not None and user_id != '':
-                # XXX don't know why, but this doesn't work, it
-                # doesn't find the user
                 user = db.get(User.make_key(user_id))
             else:
                 user = None

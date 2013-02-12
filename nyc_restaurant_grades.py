@@ -516,31 +516,53 @@ class NotifyPage(webapp2.RequestHandler):
                 user.last_notified > sub.restaurant.last_updated):
                 continue
             messages = []
+            html = []
             if (sub.needs_grade_notify()):
                 messages.append('%s changed its grade from %s to %s on %s' %
                                 (sub.restaurant.name,
                                  sub.restaurant.prev_grade,
                                  sub.restaurant.grade,
                                  sub.restaurant.last_updated))
+                html.append('<a href="http://nyc-restaurant-grades.appspot.com/goto?camis=%s">%s</a> changed its grade from %s to %s on %s' %
+                            (sub.restaurant.key().id_or_name(),
+                             sub.restaurant.name,
+                             sub.restaurant.prev_grade,
+                             sub.restaurant.grade,
+                             sub.restaurant.last_updated))
             if (sub.needs_score_notify()):
                 messages.append('%s changed its score from %s to %s on %s' %
                                 (sub.restaurant.name,
                                  sub.restaurant.prev_score,
                                  sub.restaurant.score,
                                  sub.restaurant.last_updated))
+                html.append('<a href="http://nyc-restaurant-grades.appspot.com/goto?camis=%s">%s</a> changed its grade from %s to %s on %s' %
+                            (sub.restaurant.key().id_or_name(),
+                             sub.restaurant.name,
+                             sub.restaurant.prev_score,
+                             sub.restaurant.score,
+                             sub.restaurant.last_updated))
             if (sub.needs_inspection_notify()):
                 messages.append('%s was inspected on %s' %
                                 (sub.restaurant.name, sub.restaurant.last_inspected))
+                html.append('<a href="http://nyc-restaurant-grades.appspot.com/goto?camis=%s">%s</a> was inspected on %s' %
+                            (sub.restaurant.key().id_or_name(),
+                             sub.restaurant.name,
+                             sub.restaurant.last_inspected))
             if len(messages) == 0:
                 continue
             messages.append('')
             messages.append('http://nyc-restaurant-grades.appspot.com/home')
             messages.append('http://nyc-restaurant-grades.appspot.com/goto?camis=%s' %
                             sub.restaurant.key().id_or_name())
+            html.append('')
+            html.append('<a href="http://nyc-restaurant-grades.appspot.com/home">Manage Subscriptions</a>')
             body = "\n".join(messages)
+            htmlbody = "\n".join(html)
             subject = '%s Updated!' % sub.restaurant.name
             mail.send_mail('notifier@nyc-restaurant-grades.appspotmail.com',
-                           user.email, subject, body)
+                           user.email, subject, body, html=htmlbody)
+            print body
+            print htmlbody
         user.last_notified = datetime.now()
         user.put()
 

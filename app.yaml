@@ -13,6 +13,10 @@ handlers:
   static_files: index.html
   upload: index.html
 
+- url: /sample\.html
+  static_files: sample.html
+  upload: sample.html
+
 - url: /(goto)
   script: nyc_restaurant_grades.app
 

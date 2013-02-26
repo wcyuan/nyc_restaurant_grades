@@ -535,7 +535,7 @@ class NotifyPage(webapp2.RequestHandler):
                                  sub.restaurant.prev_score,
                                  sub.restaurant.score,
                                  sub.restaurant.last_updated))
-                html.append('<a href="http://nyc-restaurant-grades.appspot.com/goto?camis=%s">%s</a> changed its grade from %s to %s on %s' %
+                html.append('<a href="http://nyc-restaurant-grades.appspot.com/goto?camis=%s">%s</a> changed its score from %s to %s on %s' %
                             (sub.restaurant.key().id_or_name(),
                              sub.restaurant.name,
                              sub.restaurant.prev_score,
@@ -557,7 +557,7 @@ class NotifyPage(webapp2.RequestHandler):
             html.append('')
             html.append('<a href="http://nyc-restaurant-grades.appspot.com/home">Manage Subscriptions</a>')
             body = "\n".join(messages)
-            htmlbody = "\n".join(html)
+            htmlbody = "<br>".join(html)
             subject = '%s Updated!' % sub.restaurant.name
             mail.send_mail('notifier@nyc-restaurant-grades.appspotmail.com',
                            user.email, subject, body, html=htmlbody)

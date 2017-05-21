@@ -511,6 +511,8 @@ class UpdateRestaurantPage(webapp2.RequestHandler):
 class NotifyPage(webapp2.RequestHandler):
     def notify_user(self, user):
         subscriptions = Subscription.all().ancestor(user.key())
+        all_lines = []
+        all_html_lines = []
         for sub in subscriptions:
             if (user.last_notified is not None and
                 user.last_notified > sub.restaurant.last_updated):
@@ -554,15 +556,19 @@ class NotifyPage(webapp2.RequestHandler):
             messages.append('http://nyc-restaurant-grades.appspot.com/home')
             messages.append('http://nyc-restaurant-grades.appspot.com/goto?camis=%s' %
                             sub.restaurant.key().id_or_name())
-            html.append('')
-            html.append('<a href="http://nyc-restaurant-grades.appspot.com/home">Manage Subscriptions</a>')
-            body = "\n".join(messages)
-            htmlbody = "<br>".join(html)
-            subject = '%s Updated!' % sub.restaurant.name
-            mail.send_mail('notifier@nyc-restaurant-grades.appspotmail.com',
-                           user.email, subject, body, html=htmlbody)
-            print body
-            print htmlbody
+			all_lines.extend(messages)
+			all_html_lines.extend(html)
+		if not all_lines and not all_html_lines:
+			return
+        all_html_lines.append('')
+        all_html_lines.append('<a href="http://nyc-restaurant-grades.appspot.com/home">Manage Subscriptions</a>')
+        body = "\n".join(all_lines)
+        htmlbody = "<br>".join(all_html_lines)
+        subject = 'Restaurant Grades Updated!'
+        mail.send_mail('notifier@nyc-restaurant-grades.appspotmail.com',
+                       user.email, subject, body, html=htmlbody)
+        print body
+        print htmlbody
         user.last_notified = datetime.now()
         user.put()
 

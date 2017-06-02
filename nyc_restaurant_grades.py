@@ -556,10 +556,10 @@ class NotifyPage(webapp2.RequestHandler):
             messages.append('http://nyc-restaurant-grades.appspot.com/home')
             messages.append('http://nyc-restaurant-grades.appspot.com/goto?camis=%s' %
                             sub.restaurant.key().id_or_name())
-			all_lines.extend(messages)
-			all_html_lines.extend(html)
-		if not all_lines and not all_html_lines:
-			return
+            all_lines.extend(messages)
+            all_html_lines.extend(html)
+        if not all_lines and not all_html_lines:
+            return
         all_html_lines.append('')
         all_html_lines.append('<a href="http://nyc-restaurant-grades.appspot.com/home">Manage Subscriptions</a>')
         body = "\n".join(all_lines)
